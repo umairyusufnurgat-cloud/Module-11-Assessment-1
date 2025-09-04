@@ -4,19 +4,30 @@
   <meta charset="UTF-8">
   <title>Image Gallery Plus</title>
   <style>
+    :root {
+      --bg-color: #f4f4f4;
+      --text-color: #333;
+      --accent-color: #4a90e2;
+    }
     body {
       font-family: Arial, sans-serif;
       margin: 0; padding: 0;
-      background: #f4f4f4; color: #333;
+      background: var(--bg-color);
+      color: var(--text-color);
       text-align: center;
+      transition: background 0.3s, color 0.3s;
     }
     header {
       padding: 1rem;
-      background: #333;
+      background: var(--accent-color);
       color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
     }
     form {
-      margin: 1rem;
+      margin: 0.5rem;
     }
     input[type="url"] {
       padding: 0.5rem;
@@ -29,11 +40,30 @@
       margin-left: 0.5rem;
       border: none;
       border-radius: 6px;
-      background: #4a90e2;
+      background: var(--accent-color);
       color: white;
       cursor: pointer;
+      transition: background 0.3s;
     }
     button:hover { background: #357ab8; }
+
+    #themeBtn {
+      background: white;
+      color: var(--accent-color);
+      border: 2px solid var(--accent-color);
+      margin-top: 0.5rem;
+    }
+    #themeBtn:hover {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    #themeLabel {
+      font-size: 0.9rem;
+      margin-top: 0.2rem;
+      color: white;
+      opacity: 0.9;
+    }
 
     .gallery {
       display: grid;
@@ -92,6 +122,8 @@
       <input type="url" id="imgUrl" placeholder="Enter image URL..." required>
       <button type="submit">Add Image</button>
     </form>
+    <button id="themeBtn">🎨 Change Theme</button>
+    <div id="themeLabel"></div>
   </header>
 
   <main class="gallery" id="gallery"></main>
@@ -104,6 +136,8 @@
     const lightboxImg = lightbox.querySelector("img");
     const addForm = document.getElementById("addForm");
     const imgUrlInput = document.getElementById("imgUrl");
+    const themeBtn = document.getElementById("themeBtn");
+    const themeLabel = document.getElementById("themeLabel");
 
     // Default starter images
     const starterImages = [
@@ -124,8 +158,27 @@
       "https://picsum.photos/id/1130/600/400"
     ];
 
+    // Themes
+    const themes = [
+      {name:"Default Blue", bg:"#f4f4f4", text:"#333", accent:"#4a90e2"},
+      {name:"Dark Orange", bg:"#222", text:"#f4f4f4", accent:"#ff9800"},
+      {name:"Pastel Pink", bg:"#fffbe6", text:"#333", accent:"#ff4081"},
+      {name:"Cool Blue", bg:"#e3f2fd", text:"#0d47a1", accent:"#2196f3"},
+      {name:"Rose Pink", bg:"#fce4ec", text:"#880e4f", accent:"#e91e63"}
+    ];
+    let currentTheme = parseInt(localStorage.getItem("galleryTheme")) || 0;
+
     // Load from localStorage or use starter images
     let images = JSON.parse(localStorage.getItem("galleryImages")) || starterImages;
+
+    function applyTheme(index) {
+      const t = themes[index];
+      document.documentElement.style.setProperty("--bg-color", t.bg);
+      document.documentElement.style.setProperty("--text-color", t.text);
+      document.documentElement.style.setProperty("--accent-color", t.accent);
+      themeLabel.textContent = "Current Theme: " + t.name;
+      localStorage.setItem("galleryTheme", index);
+    }
 
     function renderGallery() {
       gallery.innerHTML = "";
@@ -176,6 +229,14 @@
     // Close lightbox on click
     lightbox.addEventListener("click", () => lightbox.style.display = "none");
 
+    // Change theme
+    themeBtn.addEventListener("click", () => {
+      currentTheme = (currentTheme + 1) % themes.length;
+      applyTheme(currentTheme);
+    });
+
+    // Init
+    applyTheme(currentTheme);
     renderGallery();
   </script>
 </body>
