@@ -122,17 +122,7 @@
       <input type="url" id="imgUrl" placeholder="Enter image URL..." required>
       <button type="submit">Add Image</button>
     </form>
-    <select id="themeSelector">
-  <option value="0">Default Blue</option>
-  <option value="1">Dark Orange</option>
-  <option value="2">Pastel Pink</option>
-  <option value="3">Cool Blue</option>
-  <option value="4">Rose Pink</option>
-  <option value="5">Midnight Blue</option>
-  <option value="6">Soft Lavender</option>
-  <option value="7">Mint Fresh</option>
-  <option value="8">Charcoal Gold</option>
-</select>
+   <button id="themeBtn">🎨 Change Theme</button>
 <div id="themeLabel"></div>
   </header>
 
@@ -234,23 +224,9 @@
 
     lightbox.addEventListener("click", () => lightbox.style.display = "none");
 
-    const themeSelector = document.getElementById("themeSelector");
-
-const themes = [
-  { name: "Default Blue", bg: "#f4f4f4", text: "#333", accent: "#4a90e2" },
-  { name: "Dark Orange", bg: "#222", text: "#f4f4f4", accent: "#ff9800" },
-  { name: "Pastel Pink", bg: "#fffbe6", text: "#333", accent: "#ff4081" },
-  { name: "Cool Blue", bg: "#e3f2fd", text: "#0d47a1", accent: "#2196f3" },
-  { name: "Rose Pink", bg: "#fce4ec", text: "#880e4f", accent: "#e91e63" },
-  { name: "Midnight Blue", bg: "#0f172a", text: "#f1f5f9", accent: "#3b82f6" },
-  { name: "Soft Lavender", bg: "#f3e8ff", text: "#4c1d95", accent: "#a78bfa" },
-  { name: "Mint Fresh", bg: "#e6fffa", text: "#065f46", accent: "#34d399" },
-  { name: "Charcoal Gold", bg: "#1f2937", text: "#facc15", accent: "#fbbf24" }
-];
-
-themeSelector.addEventListener("change", () => {
-  const index = parseInt(themeSelector.value);
-  applyTheme(index);
+   themeBtn.addEventListener("click", () => {
+  currentTheme = (currentTheme + 1) % themes.length;
+  applyTheme(currentTheme);
 });
 
     // Initialize
