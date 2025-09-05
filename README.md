@@ -1,4 +1,4 @@
-# 📊 Module 11 Assessment 1 – Data Dashboard  
+# 📊 Module 11 Assessment 1 – Image Gallery +  
 **IT varsity – Software Development**
 
 This project is a clean, responsive data dashboard built using HTML. It showcases structured information in a tabular format, simulating a simple database interface. The layout is designed for clarity, accessibility, and ease of navigation.
